@@ -1,0 +1,61 @@
+.container {
+    width: 1200px;
+    height: auto;
+    min-height: 100vh;
+    box-sizing: border-box;
+    padding: 10 0;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+.header{
+    width: 100%;
+    min-height: 50px;
+    background-color: rgb(42, 40, 184);
+    color: white;
+    text-align: center;
+    font-size: 25px;
+}
+
+.form-container{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.authForm{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.authForm input {
+    width: 100%;
+    height: 40px;
+    padding: 4px 10px;
+    font-size: 16px;
+    color: black; 
+    margin-bottom: 10px;
+}
+
+.authForm .submit-btn{
+    width: 150px;
+    height: 40px;
+    border: 1px solid black;
+    background-color: rgba(255, 255, 255, 0);
+    cursor: pointer;
+    border-radius: 15px;
+    margin-bottom: 30px;
+    font-size: 18px;
+    text-transform: uppercase;
+}
+
+.google-btn{
+    margin-bottom: 40px;  
+}
