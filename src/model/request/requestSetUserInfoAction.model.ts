@@ -6,6 +6,5 @@ export interface RequestSetUserInfoModel {
     age?: number;
     gender?: "male" | "female";
     phone?: string;
-    contacts?: [];
-    
+    contacts?: []
 }

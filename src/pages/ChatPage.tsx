@@ -26,10 +26,9 @@ export default function ChatPage ({submitHelper, chat}: ChatPageProps): JSX.Elem
         if(chat && chat.length) {
             return chat.map((chat) => {
                 return (
-                    <div key={Math.random() + Math.random()}>
+                    <li className="chat-message" key={Math.random() + Math.random()}>
                         <p>{chat}</p>
-
-                    </div>
+                    </li>
                 )
             })
         }
@@ -39,9 +38,6 @@ export default function ChatPage ({submitHelper, chat}: ChatPageProps): JSX.Elem
 
     return (
         <div className="chat">
-              <h2>chat will be here</h2>
-                <button className="btn-connect">connect</button>
-
                 <div className="chat-container">
                     <form action="" onSubmit={submitHandler}>
                         <input type="text" onChange={changeHandler} className="chat-input" name='message' value={message}/>
@@ -51,9 +47,9 @@ export default function ChatPage ({submitHelper, chat}: ChatPageProps): JSX.Elem
 
                     </form>
 
-                    <div className="chat-body">
+                    <ul className="chat-body">
                             {renderChat()}
-                    </div>
+                    </ul>
                 </div>
 
           </div>
