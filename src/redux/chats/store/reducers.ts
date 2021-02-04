@@ -2,6 +2,7 @@ import { Action } from "redux";
 import { UserDataModel } from "../../../pages/user/UserContainer";
 import { UserStateModel } from "../../users/store/reducers";
 import { completedCreateNewChatroomAction, completedGetUserByName, failServerAccessAction } from "../saga/chatsHandler";
+import { setChatroomAction } from "./actions";
 export interface ChatUserModel {
     user: UserStateModel; 
     massage: string; 
@@ -14,13 +15,15 @@ export interface InitialChatModel {
     users: UserDataModel[]; 
     chatId?: string; 
     errorMsg?: string; 
+    isChatConnected: boolean
 }
 
 
 const initialState: InitialChatModel = {
     status: 'initial',
     chatId: "",
-    users: []
+    users: [], 
+    isChatConnected: false,
 }
 
 export function UserChatReducer (state: InitialChatModel = initialState, action: Action) {
@@ -46,6 +49,27 @@ export function UserChatReducer (state: InitialChatModel = initialState, action:
             ...state, 
             status: action.status, 
             chatId: action.chatId
+        }
+    }
+
+    if(setChatroomAction.is(action)){
+        return {
+            ...state, 
+            chatId: action.id
+        }
+    }
+
+    if(action.type === 'CHATROOM_CONNECTED'){
+        return {
+            ...state, 
+            isChatConnected: true
+        }
+    }
+    
+    if(action.type === 'CHATROOM_DISCONNECTED'){
+        return {
+            ...state, 
+            isChatConnected: false 
         }
     }
 

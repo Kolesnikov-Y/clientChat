@@ -1,7 +1,7 @@
 import { AppState } from '../../app-state';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { createNewChatAction, debounceUserSearchAction, setChatroomAction } from '../../redux/chats/store/actions';
+import { chatroomConnectedAction, chatroomDisconnectedAction, createNewChatAction, debounceUserSearchAction, setChatroomAction } from '../../redux/chats/store/actions';
 import UserComponent from './UserComponent';
 import './style/userStyle.css'
 import ChatContainer, { MessageModel } from '../ChatContainer';
@@ -38,7 +38,7 @@ export interface UserContactsModel {
  function UserContainer (): JSX.Element {
 
     const molID: string = `9a2b0d5e-4888-47d3-836a-b82df580614b`;
-    const [isChatOpen, setChatOpen] = React.useState<boolean>(false)
+    const [isChatOpen, setChatOpen] = React.useState<boolean>(false);
 
     const userFromSearch = useSelector<AppState, UserDataModel[]>(({chats}) => chats.users);
     const chatStatus = useSelector<AppState, string>(({chats} )=> chats.status)
@@ -53,7 +53,7 @@ export interface UserContactsModel {
 
     const getUsers = React.useCallback((searchValue: string) => {
         dispatch(debounceUserSearchAction({name: searchValue}))
-    }, [dispatch])
+    }, [dispatch]); 
 
     const openChatWithUser = (contactName: {name: string, id: string}, user: UserDataModel ) => {
         const getChat = user.chats.find((chat) => {
@@ -63,18 +63,18 @@ export interface UserContactsModel {
         }); 
     
         if(getChat) {
-            console.log("chat is here");
-    
+            console.log("chat is here")
             dispatch(setChatroomAction({id: getChat.chatId}));
             if(chatStatus === "success") setChatOpen(true);
         }
         else {
             const newChat =  {
+                chatId: `${contactName.id}.${user.id}`,
                 chatTitle: [{userName: contactName.name, userId: contactName.id},
                 {userName: user.name , userId: user.id}],
                 messages: []
             }
-    
+           
             dispatch(createNewChatAction(newChat)); 
             dispatch(changeUserDataAction({email: user.email, changeFields: {chats: [...user.chats, newChat]}}));
             if(chatStatus === "success") setChatOpen(true);

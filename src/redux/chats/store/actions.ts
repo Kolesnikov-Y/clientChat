@@ -9,3 +9,6 @@ export const debounceUserSearchAction = defineAction<{name: string}>('DEBOUNCE_U
 
 export const setChatroomAction = defineAction<{id: string}>("SET_CHATROOM");
 export const createNewChatAction = defineAction<RequestCreateChatModel>('CREATE_NEW_CHATROOM'); 
+
+export const chatroomConnectedAction = {type: 'CHATROOM_CONNECTED'}; 
+export const chatroomDisconnectedAction = {type: 'CHATROOM_DISCONNECTED'}; 

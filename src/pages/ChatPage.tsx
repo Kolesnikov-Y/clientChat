@@ -1,25 +1,17 @@
 import React, { ChangeEvent } from 'react';    
+import ChatFromComponent from './chat/chatFrom';
+import { MessageModel } from './ChatContainer';
 
 
 interface ChatPageProps {
     submitHelper : (message: string) => void;
-    chat: string[];
+    chat: MessageModel[];
+    disconnectClient?: () => void; 
+    connectClient?: () => void;
 }
 
 
-export default function ChatPage ({submitHelper, chat}: ChatPageProps): JSX.Element {
-    const [message, setMessage] = React.useState<string>('');
-  
-    const changeHandler = (e: ChangeEvent<HTMLInputElement>): void => {
-        setMessage(e.currentTarget.value)
-    }
-
-    const submitHandler = (e: React.FormEvent): void => {
-        e.preventDefault(); 
-        submitHelper(message)
-        setMessage('')
-    }
-
+ function ChatPage ({submitHelper, chat}: ChatPageProps): JSX.Element {
     // ==============================
     
     function renderChat () {
@@ -27,31 +19,22 @@ export default function ChatPage ({submitHelper, chat}: ChatPageProps): JSX.Elem
             return chat.map((chat) => {
                 return (
                     <li className="chat-message" key={Math.random() + Math.random()}>
-                        <p>{chat}</p>
-                    </li>
+                        <p>{chat.text}</p>
+                    </li>  
                 )
             })
         }
-        return <h3>пока чатов нет</h3>
+        return <h3>пока сообщений нет</h3>
     }
 
-
     return (
-        <div className="chat">
-                <div className="chat-container">
-                    <form action="" onSubmit={submitHandler}>
-                        <input type="text" onChange={changeHandler} className="chat-input" name='message' value={message}/>
-                        <button type="submit"  className="btn-sendMessage">
-                            Send
-                        </button>
-
-                    </form>
-
-                    <ul className="chat-body">
-                            {renderChat()}
-                    </ul>
-                </div>
-
-          </div>
+            <div className="chat-container">
+                <ChatFromComponent submitHelper={submitHelper}/>
+                <ul className="chat">
+                    {renderChat()}
+                </ul>
+            </div>
     )
 }
+ 
+export default ChatPage

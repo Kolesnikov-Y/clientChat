@@ -3,6 +3,7 @@ import { defineAction } from "rd-redux-utils"
 import { debounce, put, takeEvery } from "redux-saga/effects"
 import { RequestCreateChatModel } from "../../../model";
 import { UserDataModel } from "../../../pages/user/UserContainer";
+import { changeUserDataAction } from "../../users/store/actions";
 import { createNewChatAction, debounceUserSearchAction, findUserByNameAction } from "../store/actions"
 import { InitialChatModel } from "../store/reducers"
 
@@ -23,7 +24,8 @@ export function* createNewChatSaga() {
             yield put(
                 startOfServerAccessAction({
                     status: 'running',
-                    users: []
+                    users: [], 
+                    isChatConnected: false
                 })
             )
             
@@ -39,9 +41,21 @@ export function* createNewChatSaga() {
                     completedCreateNewChatroomAction({
                         status: 'success', 
                         users: [], 
-                        chatId: response.data
+                        chatId: response.data, 
+                        isChatConnected: false,
                     })
                 )
+
+                // if(actionPayload.userEmail !== undefined) {
+                //     yield put(
+                //         changeUserDataAction({
+                //             email: actionPayload.userEmail, 
+                //             changeFields: {
+                //                 chats: [response.data, ...chats]
+                //             }
+                //         })
+                //     )
+                // }
             }
 
         } catch (error) {
@@ -50,6 +64,7 @@ export function* createNewChatSaga() {
                     status: 'error', 
                     errorMsg: error.toString(), 
                     users: [],
+                    isChatConnected: false, 
                 }) 
             )
         }
@@ -63,6 +78,7 @@ function* findUserByNameSaga (action: typeof findUserByNameAction.typeOf.action 
             startOfServerAccessAction({
                 status: "running", 
                 users: [],
+                isChatConnected: false, 
             }) 
         )
         const response: AxiosResponse<UserDataModel[]> = yield axios.get(
@@ -73,17 +89,18 @@ function* findUserByNameSaga (action: typeof findUserByNameAction.typeOf.action 
             yield put(
                 completedGetUserByName({
                     status: "success", 
-                    users: response.data
+                    users: response.data, 
+                    isChatConnected: false,
                 })
             )
         }   
-
     } catch (error) {
         yield put(
             failServerAccessAction({
                 status: 'error', 
                 errorMsg: error.toString(), 
                 users: [],
+                isChatConnected: false,
             }) 
         )
     } 

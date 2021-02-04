@@ -12,15 +12,21 @@ interface UserComponentProps {
 }
 
  function UserComponent ({ getUsers, userFromSearch, openChatWithUser, isChatOpen}: UserComponentProps): JSX.Element {
-    const userInfo = useSelector<AppState, UserDataModel | undefined>(({user}) => user.userInfo);
+    const userInfo = useSelector<AppState, UserDataModel>(({user}) => user.userInfo);
     const [search, setSearch] = React.useState<string>(''); 
-
     const debounceSearch = (e: ChangeEvent<HTMLInputElement>): void => {
         setSearch(e.currentTarget.value);
         getUsers(e.currentTarget.value);
     }
+    
+    const userInfoForChat = {
+        name: userInfo.name, 
+        id: userInfo.id,
+        isOnline: true, 
+        avatar: "d"
+    }
    
-    const renderUserContacts = () =>  {
+    const renderUserChats = () =>  {
         return (
             userFromSearch && userFromSearch.length ? userFromSearch.map((contact) => {
                 return  <li className="chat-body"  onClick={() => userInfo !== undefined && openChatWithUser(contact, userInfo)}  key={contact.id}>
@@ -29,7 +35,6 @@ interface UserComponentProps {
             }) : <h2>контактов пока нет !</h2>
         )
     }
-
 
     return (
         <>
@@ -42,12 +47,12 @@ interface UserComponentProps {
                 </div>
                 <div className="user-chats">
                     <ul>
-                        {renderUserContacts()}
+                        {renderUserChats()}
                     </ul>
                 </div>
             </div>
             <div className="user-body">
-                {isChatOpen && <ChatContainer/>}
+                {isChatOpen && <ChatContainer userInfo={userInfoForChat}/>}
             </div>
         </>
     )

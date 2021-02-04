@@ -1,16 +1,16 @@
 .userContainer{
-    width: 900px;
+    width: 1200px;
     height: auto;
     display: flex;
     align-items: center;
-    
-}
-.user-chats ul {
-    padding: 0;
-    margin-bottom: 50px;
+    margin-top: 80px;
+    background-color: #fff;
+    box-sizing: border-box;
 }
 
 .chat-body{
+    height: 50px;
+    padding: 5px 10px;
     list-style: none;
     border: 1px solid black;
     margin-bottom: 15px;
@@ -24,16 +24,47 @@
 }
 
 .userSidebar{
-    flex: 1 0 33%;
+    flex: 0 0 auto;
     min-width: 300px;
     min-height: 400px;
     height: auto;
     border: 1px solid black; 
+    box-sizing: border-box;
+    /* display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center; */
+    padding: 20px 10px;
 }
 
 .user-body{
-    flex: 1 0 67%;
+    flex: 0 0 70%;
     min-width: 500px;
     min-height: 400px;
     border: 1px solid red;
+    box-sizing: border-box;
+}
+
+.user-search-input{
+    width: 80%;
+    flex: 0 0 100%;
+    padding: 3px 7px;
+    font-size: 18px;
+    color: black;
+    border-radius: 10px;
+    background-color: rgba(128, 128, 128, 0.178);
+}
+
+.user-search-input:focus{
+    outline: none;
+}
+
+.user-chats ul {
+    padding: 0;
+    margin-bottom: 50px;
+    width: 100%;
+}
+
+.chat-body{
+    width: auto;
 }
