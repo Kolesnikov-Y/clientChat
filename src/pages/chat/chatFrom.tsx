@@ -7,14 +7,18 @@ interface ChatFormProps {
  function ChatFromComponent ({submitHelper}: ChatFormProps): JSX.Element {
     const [message, setMessage] = React.useState<string>('');
   
-    const changeHandler = (e: ChangeEvent<HTMLInputElement>): void => {
-        setMessage(e.currentTarget.value)
+    const changeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        setMessage(e.currentTarget.value);
     }
 
-    const submitHandler = (e: React.FormEvent): void => {
+    const submitHandler = (e: React.FormEvent)=> {
         e.preventDefault(); 
-        submitHelper(message)
-        setMessage('')
+        if(!message)  {
+            return false
+        }else {
+            submitHelper(message)
+            setMessage('')
+        } 
     }
 
 

@@ -5,6 +5,7 @@ import io from 'socket.io-client';
 import { useSelector } from 'react-redux';
 import './chat/style/chatContainer.css'; 
 import {v4 as uuidv4}  from 'uuid';
+import { UserChatModel } from './user/UserContainer';
 
 const socket = io.connect('http://10.10.4.172:3001'); 
 
@@ -23,16 +24,8 @@ export  interface MessageModel {
     }; 
 
 interface ChatContainerProps {
-    userInfo : UserMessageModel
+    userInfo : UserMessageModel, 
 }
-
-// export const disconnectClientHandler = (): void => {
-//     socket.disconnect()
-// }
-
-// export const connectClientHandler = (): void => {
-//     socket.connect(); 
-// }
 
 function ChatContainer ({userInfo}: ChatContainerProps): JSX.Element {
 const [message, setMessage] = React.useState<MessageModel>({
@@ -59,7 +52,6 @@ const [message, setMessage] = React.useState<MessageModel>({
       }, [])
 
       React.useEffect(() => {
-        // console.log(currentChatId)
         socket.emit('setChatToServer', currentChatId); 
         socket.on('setChatToClient', (response: MessageModel[]): void => {
             console.log("server response", response);
@@ -83,7 +75,7 @@ const [message, setMessage] = React.useState<MessageModel>({
 
     return (
         <div className="chat">
-            <ChatPage submitHelper={submitHelper} chat={chat}/>
+            <ChatPage submitHelper={submitHelper} chat={chat} />
         </div>
     )
 }

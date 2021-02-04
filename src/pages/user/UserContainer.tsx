@@ -55,35 +55,47 @@ export interface UserContactsModel {
         dispatch(debounceUserSearchAction({name: searchValue}))
     }, [dispatch]); 
 
-    const openChatWithUser = (contactName: {name: string, id: string}, user: UserDataModel ) => {
-        const getChat = user.chats.find((chat) => {
+    const getCurrentChat = React.useCallback((id: string) => {
+        dispatch(setChatroomAction({id}));
+        if(chatStatus !== "error") setChatOpen(true);
+    }, [dispatch]); 
+
+    const createAndGetNeedChat = (contactName: {name: string, id: string}, user: UserDataModel) => {
+        const newChat =  {
+            chatId: `${contactName.id}.${user.id}`,
+            chatTitle: [{userName: contactName.name, userId: contactName.id},
+            {userName: user.name , userId: user.id}],
+            messages: []
+        }
+        dispatch(createNewChatAction(newChat)); 
+        dispatch(changeUserDataAction({email: user.email, changeFields: {chats: [...user.chats, newChat]}}));
+        if(chatStatus === "success") setChatOpen(true);
+    }
+
+    const isChatCreated = (chat : UserChatModel[], contactId: string ) => {
+        return chat.find((chat) => {
             return chat.chatTitle.find((user) => {
-                return user.userId === contactName.id
+                return user.userId === contactId
             })
         }); 
+    }
+
+    const openChatWithUser = (contactName: {name: string, id: string}, user: UserDataModel ) => {
+         
+        const getChat = isChatCreated(user.chats, contactName.id);
     
         if(getChat) {
             console.log("chat is here")
-            dispatch(setChatroomAction({id: getChat.chatId}));
-            if(chatStatus === "success") setChatOpen(true);
+            getCurrentChat(getChat.chatId); 
         }
         else {
-            const newChat =  {
-                chatId: `${contactName.id}.${user.id}`,
-                chatTitle: [{userName: contactName.name, userId: contactName.id},
-                {userName: user.name , userId: user.id}],
-                messages: []
-            }
-           
-            dispatch(createNewChatAction(newChat)); 
-            dispatch(changeUserDataAction({email: user.email, changeFields: {chats: [...user.chats, newChat]}}));
-            if(chatStatus === "success") setChatOpen(true);
+            createAndGetNeedChat(contactName, user)
         }
     }
 
     return (
         <div className="userContainer">
-          <UserComponent userFromSearch={userFromSearch} getUsers={getUsers} isChatOpen={isChatOpen} openChatWithUser={openChatWithUser}/>
+          <UserComponent userFromSearch={userFromSearch} getUsers={getUsers} isChatOpen={isChatOpen} getCurrentChat={getCurrentChat} openChatWithUser={openChatWithUser}/>
         </div>
     )
 }

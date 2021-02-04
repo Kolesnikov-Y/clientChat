@@ -1,6 +1,7 @@
 import React, { ChangeEvent } from 'react';    
 import ChatFromComponent from './chat/chatFrom';
 import { MessageModel } from './ChatContainer';
+import { UserChatModel } from './user/UserContainer';
 
 
 interface ChatPageProps {
@@ -24,7 +25,7 @@ interface ChatPageProps {
                 )
             })
         }
-        return <h3>пока сообщений нет</h3>
+        return null
     }
 
     return (
