@@ -13,7 +13,6 @@ interface ChatPageProps {
 
 
  function ChatPage ({submitHelper, chat}: ChatPageProps): JSX.Element {
-    // ==============================
     
     function renderChat () {
         if(chat && chat.length) {

@@ -43,13 +43,7 @@ export interface UserContactsModel {
     const userFromSearch = useSelector<AppState, UserDataModel[]>(({chats}) => chats.users);
     const chatStatus = useSelector<AppState, string>(({chats} )=> chats.status)
 
-    const dispatch = useDispatch()
-
-    // React.useEffect( () => {
-    //     dispatch(getUserInfoAction(
-    //         {id: mockID}
-    //     ))
-    // }, []);
+    const dispatch = useDispatch(); 
 
     const getUsers = React.useCallback((searchValue: string) => {
         dispatch(debounceUserSearchAction({name: searchValue}))
