@@ -1,9 +1,9 @@
 import { defineAction } from "rd-redux-utils";
 import { UserStateModel } from "../store/reducers";
 import { put, takeEvery } from "redux-saga/effects";
-import { changeUserDataAction, getUserInfoAction } from "../store/actions";
+import { addUsersChatAction, getUserInfoAction } from "../store/actions";
 import axios, { AxiosResponse } from "axios";
-import { RequestGetUserByIdModel, ResponseGetUserModel , ResponseChangeUserDataModel} from "../../../model";
+import { RequestGetUserByIdModel, ResponseGetUserModel , ResponseChangeUserDataModel, RequestAddUsersChatModel} from "../../../model";
 import { RequestChangeUserDataModel } from "../../../model/request/requestChangeUserData.model";
 
 export const userStartOfServerAccessAction = defineAction<UserStateModel>("USER/START_OF_SERVER_ACCESS");
@@ -11,31 +11,32 @@ export const completedGetUserAction = defineAction<UserStateModel>("USER/GET_USE
 export const userFailedAccessAction = defineAction<UserStateModel>("USER/FAILED_ACCESS");
 export const completedChangeUserDataAction = defineAction<UserStateModel>("USER/COMPLETED_ADD_TO_USER_CHATS");
 
+const mockUserInfo = {
+    name: '', 
+    email: '', 
+    id: '', 
+    chats: [], 
+    age: 0, 
+    gender: 'male', 
+    phone: '',
+    contacts: [],
+}
 
 export function* changeUserDataSaga () {
-    yield takeEvery(changeUserDataAction.TYPE, function* (
-        action: typeof changeUserDataAction.typeOf.action
+    yield takeEvery(addUsersChatAction.TYPE, function* (
+        action: typeof addUsersChatAction.typeOf.action
     ){
-        let addData: RequestChangeUserDataModel = action;
+        let addData: RequestAddUsersChatModel = action;
         try {
             yield put(
                 userStartOfServerAccessAction({
                     status: 'running', 
-                    userInfo: {
-                        name: '', 
-                        email: '', 
-                        id: '', 
-                        chats: [], 
-                        age: 0, 
-                        gender: 'male', 
-                        phone: '',
-                        contacts: [],
-                    }
+                    userInfo: mockUserInfo
                 })
             )
 
             const response: AxiosResponse<ResponseChangeUserDataModel> = yield axios.patch(
-                `http://localhost:3001/api/user/changeData`, addData
+                `http://localhost:3001/api/user/addChatToUsers`, addData
              );
 
              if(response.status === 200) {
@@ -43,16 +44,7 @@ export function* changeUserDataSaga () {
                     completedChangeUserDataAction({
                         status: 'success',
                         payload: response.data, 
-                        userInfo: {
-                            name: '', 
-                            email: '', 
-                            id: '', 
-                            chats: [], 
-                            age: 0, 
-                            gender: 'male', 
-                            phone: '',
-                            contacts: [],
-                        }
+                        userInfo: mockUserInfo
                     }
                         )
                  )
@@ -63,16 +55,7 @@ export function* changeUserDataSaga () {
                 userFailedAccessAction({
                     status: 'error', 
                     errorMsg:  error.toString(), 
-                    userInfo: {
-                        name: '', 
-                        email: '', 
-                        id: '', 
-                        chats: [], 
-                        age: 0, 
-                        gender: 'male', 
-                        phone: '',
-                        contacts: [],
-                    }
+                    userInfo: mockUserInfo
                 })
             )
         }
@@ -89,16 +72,7 @@ export function* getUserSaga() {
             yield put(
                 userStartOfServerAccessAction({
                     status: 'running', 
-                    userInfo: {
-                        name: '', 
-                        email: '', 
-                        id: '', 
-                        chats: [], 
-                        age: 0, 
-                        gender: 'male', 
-                        phone: '',
-                        contacts: [],
-                    }
+                    userInfo: mockUserInfo
                 })
             ); 
 
@@ -120,16 +94,7 @@ export function* getUserSaga() {
                 userFailedAccessAction({
                     status: 'error', 
                     errorMsg:  error.toString(), 
-                    userInfo: {
-                        name: '', 
-                        email: '', 
-                        id: '', 
-                        chats: [], 
-                        age: 0, 
-                        gender: 'male', 
-                        phone: '',
-                        contacts: [],
-                    }
+                    userInfo: mockUserInfo
                 })
             )
         }

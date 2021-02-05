@@ -72,6 +72,9 @@ interface UserComponentProps {
     return (
         <>
             <div className="userSidebar">
+
+                {userInfo.name}
+
                 <div className="user-search">
                     <input type="text" className="user-search-input" name="search" onChange={debounceSearch}  value={search} placeholder="if you want to find someone..."/>
                 </div>

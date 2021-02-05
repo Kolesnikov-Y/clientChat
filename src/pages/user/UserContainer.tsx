@@ -1,11 +1,12 @@
 import { AppState } from '../../app-state';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { chatroomConnectedAction, chatroomDisconnectedAction, createNewChatAction, debounceUserSearchAction, setChatroomAction } from '../../redux/chats/store/actions';
+import { createNewChatAction, debounceUserSearchAction, setChatroomAction } from '../../redux/chats/store/actions';
 import UserComponent from './UserComponent';
 import './style/userStyle.css'
-import ChatContainer, { MessageModel } from '../ChatContainer';
-import { changeUserDataAction, getUserInfoAction } from '../../redux/users/store/actions';
+import  { MessageModel } from '../ChatContainer';
+import { addUsersChatAction, getUserInfoAction } from '../../redux/users/store/actions';
+import { ChatTitleModel } from '../../model';
 
 export  interface UserDataModel {
     name: string; 
@@ -18,12 +19,11 @@ export  interface UserDataModel {
     age: number;
 } 
 
+
+
 export interface UserChatModel {
     chatId: string; 
-    chatTitle : {
-        userName: string; 
-        userId: string;
-    }[]; 
+    chatTitle : ChatTitleModel[]; 
     messages: MessageModel[]
 }
 
@@ -36,8 +36,8 @@ export interface UserContactsModel {
 }
 
  function UserContainer (): JSX.Element {
-
-    const molID: string = `9a2b0d5e-4888-47d3-836a-b82df580614b`;
+    const [mockID, setMockID] = React.useState<string>('');
+    // const mockID: string = `9a2b0d5e-4888-47d3-836a-b82df580614b`;
     const [isChatOpen, setChatOpen] = React.useState<boolean>(false);
 
     const userFromSearch = useSelector<AppState, UserDataModel[]>(({chats}) => chats.users);
@@ -45,20 +45,20 @@ export interface UserContactsModel {
 
     const dispatch = useDispatch()
 
-    React.useEffect( () => {
-        dispatch(getUserInfoAction(
-            {id: molID}
-        ))
-    }, []);
+    // React.useEffect( () => {
+    //     dispatch(getUserInfoAction(
+    //         {id: mockID}
+    //     ))
+    // }, []);
 
     const getUsers = React.useCallback((searchValue: string) => {
         dispatch(debounceUserSearchAction({name: searchValue}))
     }, [dispatch]); 
 
-    const getCurrentChat = React.useCallback((id: string) => {
+    const getCurrentChat = (id: string): void => {
         dispatch(setChatroomAction({id}));
         if(chatStatus !== "error") setChatOpen(true);
-    }, [dispatch]); 
+    }; 
 
     const createAndGetNeedChat = (contactName: {name: string, id: string}, user: UserDataModel) => {
         const newChat =  {
@@ -67,8 +67,10 @@ export interface UserContactsModel {
             {userName: user.name , userId: user.id}],
             messages: []
         }
+
+
         dispatch(createNewChatAction(newChat)); 
-        dispatch(changeUserDataAction({email: user.email, changeFields: {chats: [...user.chats, newChat]}}));
+        dispatch(addUsersChatAction(newChat));
         if(chatStatus === "success") setChatOpen(true);
     }
 
@@ -80,10 +82,11 @@ export interface UserContactsModel {
         }); 
     }
 
-    const openChatWithUser = (contactName: {name: string, id: string}, user: UserDataModel ) => {
+    const openChatWithUser = (contactName: {name: string, id: string}, user: UserDataModel ): void => {
          
         const getChat = isChatCreated(user.chats, contactName.id);
     
+
         if(getChat) {
             console.log("chat is here")
             getCurrentChat(getChat.chatId); 
@@ -93,8 +96,25 @@ export interface UserContactsModel {
         }
     }
 
+    // TEST
+
+    const changeUsersIDHelper = (e: any) => {
+        setMockID(e.currentTarget.value)
+    }
+
+    const submitHelper = (e: any) => {
+        e.preventDefault(); 
+        dispatch(getUserInfoAction(
+            {id: mockID}
+        ))
+    }
+
     return (
         <div className="userContainer">
+            <form action="" onSubmit={submitHelper}>
+                <input type="text" placeholder="User ID" value={mockID} onChange={changeUsersIDHelper}/>
+            </form>
+
           <UserComponent userFromSearch={userFromSearch} getUsers={getUsers} isChatOpen={isChatOpen} getCurrentChat={getCurrentChat} openChatWithUser={openChatWithUser}/>
         </div>
     )

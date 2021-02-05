@@ -5,7 +5,6 @@ import io from 'socket.io-client';
 import { useSelector } from 'react-redux';
 import './chat/style/chatContainer.css'; 
 import {v4 as uuidv4}  from 'uuid';
-import { UserChatModel } from './user/UserContainer';
 
 const socket = io.connect('http://10.10.4.172:3001'); 
 
@@ -44,11 +43,10 @@ const [message, setMessage] = React.useState<MessageModel>({
     const currentChatId = useSelector<AppState, string | undefined >(({chats}) => chats.chatId);
 
     React.useEffect(() => {
-        // socket.emit('connection', currentChatId);
-        // socket.on("connection", (response: any): void => {
-        //   console.log(response);
-        // });
-        console.log("hello world");  
+        socket.on("msgToClient", (response: any): void => {
+            console.log(response);
+            setChat([...response.messages])
+        })
       }, [])
 
       React.useEffect(() => {
@@ -67,11 +65,12 @@ const [message, setMessage] = React.useState<MessageModel>({
             createdAt: new Date(Date.now())
         }
         socket.emit('msgToServer', {payload: request}); 
-        socket.on("msgToClient", (response: MessageModel): void => {
+        socket.on("msgToClient", (response: any): void => {
             console.log(response);
-            setChat([...chat, response])
+            setChat([...response.messages])
         })
     }
+
 
     return (
         <div className="chat">

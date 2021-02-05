@@ -3,7 +3,6 @@ import { defineAction } from "rd-redux-utils"
 import { debounce, put, takeEvery } from "redux-saga/effects"
 import { RequestCreateChatModel } from "../../../model";
 import { UserDataModel } from "../../../pages/user/UserContainer";
-import { changeUserDataAction } from "../../users/store/actions";
 import { createNewChatAction, debounceUserSearchAction, findUserByNameAction } from "../store/actions"
 import { InitialChatModel } from "../store/reducers"
 
@@ -45,17 +44,6 @@ export function* createNewChatSaga() {
                         isChatConnected: false,
                     })
                 )
-
-                // if(actionPayload.userEmail !== undefined) {
-                //     yield put(
-                //         changeUserDataAction({
-                //             email: actionPayload.userEmail, 
-                //             changeFields: {
-                //                 chats: [response.data, ...chats]
-                //             }
-                //         })
-                //     )
-                // }
             }
 
         } catch (error) {
