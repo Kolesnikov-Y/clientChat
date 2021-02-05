@@ -1,4 +1,4 @@
-import { MessageModel } from "../../pages/ChatContainer";
+import { MessageModel } from "../../pages/chat/ChatContainer";
 
 export interface ChatTitleModel {
     userId: string; 

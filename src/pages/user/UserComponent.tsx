@@ -1,7 +1,7 @@
 import React, { ChangeEvent } from 'react';
 import { useSelector } from 'react-redux';
 import { AppState } from '../../app-state';
-import ChatContainer from '../ChatContainer';
+import ChatContainer from '../chat/ChatContainer';
 import { UserChatModel, UserDataModel } from './UserContainer';
 
 interface UserComponentProps {

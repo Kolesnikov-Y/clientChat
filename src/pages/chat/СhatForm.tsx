@@ -1,4 +1,6 @@
-import React, { ChangeEvent } from 'react'
+import React, { ChangeEvent } from 'react'; 
+import './style/chatForm.css'
+
 
 interface ChatFormProps {
     submitHelper: (message: string) => void;
@@ -23,11 +25,11 @@ interface ChatFormProps {
 
 
     return (
-        <form action="" onSubmit={submitHandler}>
+        <form className="chat-form" id="chat-form" action="" onSubmit={submitHandler}>
             <input type="text" onChange={changeHandler} className="chat-input" name='message' value={message}/>
-            <button type="submit"  className="btn-sendMessage">
+            {/* <button type="submit"  className="btn-sendMessage">
                 Send
-            </button>
+            </button> */}
         </form>
     )
 }

@@ -5,10 +5,6 @@ interface CalendarLayoutModel {
 }
 
 export default function  CalendarLayout ({children}: CalendarLayoutModel): JSX.Element {
-    
-
-
-
     return (
         <div className="calendar-layout">
             <div className="calendar-wrapper">{children}</div>

@@ -1,9 +1,9 @@
 import React from 'react';
-import { AppState } from '../app-state';
+import { AppState } from '../../app-state';
+import './style/chatContainer.css'
 import ChatPage from './ChatPage';
 import io from 'socket.io-client';
 import { useSelector } from 'react-redux';
-import './chat/style/chatContainer.css'; 
 import {v4 as uuidv4}  from 'uuid';
 
 const socket = io.connect('http://10.10.4.172:3001'); 
@@ -73,7 +73,7 @@ const [message, setMessage] = React.useState<MessageModel>({
 
 
     return (
-        <div className="chat">
+        <div className="chatContainer">
             <ChatPage submitHelper={submitHelper} chat={chat} />
         </div>
     )

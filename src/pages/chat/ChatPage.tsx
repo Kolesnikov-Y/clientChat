@@ -1,7 +1,8 @@
-import React, { ChangeEvent } from 'react';    
-import ChatFromComponent from './chat/chatFrom';
+import React from 'react';    
+import ChatFromComponent from './СhatForm';
+import './style/chatComponent.css'
 import { MessageModel } from './ChatContainer';
-import { UserChatModel } from './user/UserContainer';
+
 
 
 interface ChatPageProps {
@@ -24,15 +25,15 @@ interface ChatPageProps {
                 )
             })
         }
-        return null
+        return <h2>Нужно выбрать чат для общения ) </h2>
     }
 
     return (
             <div className="chat-container">
-                <ChatFromComponent submitHelper={submitHelper}/>
                 <ul className="chat">
                     {renderChat()}
                 </ul>
+                <ChatFromComponent submitHelper={submitHelper}/>
             </div>
     )
 }

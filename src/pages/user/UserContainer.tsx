@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { createNewChatAction, debounceUserSearchAction, setChatroomAction } from '../../redux/chats/store/actions';
 import UserComponent from './UserComponent';
 import './style/userStyle.css'
-import  { MessageModel } from '../ChatContainer';
+import  { MessageModel } from '../chat/ChatContainer';
 import { addUsersChatAction, getUserInfoAction } from '../../redux/users/store/actions';
 import { ChatTitleModel } from '../../model';
 

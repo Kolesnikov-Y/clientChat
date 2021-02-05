@@ -1,11 +1,15 @@
 .userContainer{
     width: 1200px;
+    min-height: 100vh;
     height: auto;
     display: flex;
-    align-items: center;
-    margin-top: 80px;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 80px;
     background-color: #fff;
     box-sizing: border-box;
+    border: 2px solid black;
+    border-top: none;
 }
 
 .chat-body{
