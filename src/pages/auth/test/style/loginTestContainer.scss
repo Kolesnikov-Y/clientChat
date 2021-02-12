@@ -1,0 +1,113 @@
+// переменные 
+@import '../../../../index.scss';
+// вынести марджины для текста и формы
+
+// variables
+
+$login-form-container-width: 1440px;
+$right-width: 670px;
+$main-margin: 110px; 
+
+// style
+
+.login-form-container {
+    width: $login-form-container-width;
+    height: 900px;
+    margin: 0 auto;
+    display: flex;
+    align-items: stretch;
+}
+
+.login-form-component{
+    width: calc(#{$login-form-container-width} - #{$right-width});
+    height: 100%;
+    background-color: #E5E5E5;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    & .form-logo{
+        width: 70px;
+        height: 70px;
+        margin: 40px 70px 50px;
+    }
+
+    & .form-title{
+        width: 408px;
+        min-height: 108px;
+        height: auto;
+        margin-left: $main-margin;
+        margin-right: 5rem;
+        margin-bottom: 50px;
+        & h2{
+            font-family: 'Alegreya', serif;
+            font-size: 32px;
+            line-height: 44px;
+            font-weight: 500;
+            font-style: normal;
+            margin-bottom: 12px;
+            color:  #19212C;
+            opacity: .43;
+        }
+        & p {
+            min-width: 410px;
+            width: auto;
+            min-height: 52px;
+            height: auto;
+            line-height: 26px;
+            font-style: normal;
+            font-weight: 400;
+        }
+    }
+
+}
+
+
+
+// need to paste svg image in background!
+
+.right{
+    position: relative;
+    width: $right-width;
+    height: 100%;
+    background-color: #4424A7;
+    // background-image: url("../img/illustration.svg") no-repeat center;
+    z-index: 5;
+    @include centeredColumn;
+
+    & .illustration{
+        max-width: 289px;
+        min-height: 250px;
+        margin-bottom: 50px;
+        border: 1px solid black ;
+    }
+
+    & .group{
+        max-width: 282px;
+        min-height: 90;
+        height: auto;
+        margin-bottom: 50px;
+        & h2{
+            max-width: 282px;
+            min-height: 30px;
+            height: auto;
+            font-family: serif;
+            font-style: normal;
+            font-weight: normal;
+            font-size: 24px;
+            line-height: 26px;
+            text-align: center;
+            color: white; 
+            margin-bottom: 12px;
+        }
+        &p{
+            max-width: 282px;
+            min-height: 50px;
+            height: auto;
+            font-style: normal;
+            font-weight: 300;
+            font-size: 20px;
+            line-height: 26px;
+            color: #B7A9E3;
+        }
+    }
+}

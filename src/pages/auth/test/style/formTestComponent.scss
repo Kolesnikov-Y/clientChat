@@ -1,0 +1,98 @@
+@import '../../../../index.scss';
+
+$login-form-container-width: 1440px;
+$right-width: 670px;
+$main-margin: 110px; 
+
+.form{
+    max-width: 510px;
+    max-height: 582px;
+    background-color: white;
+    border-radius: 24px;
+    margin-left: $main-margin;
+    margin-right: 5rem;
+    padding-top: 58px;
+    padding-bottom: 58px;
+    @include centeredColumn;
+
+    & .email-address, .password, .account-type {
+        width: 410px;
+        height: 83px;
+        margin-bottom: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        & label {
+            color: #868B90;
+            margin-bottom: 12px;
+        }
+        & input, #type {                           
+            max-height: 50px;
+            color: black;    
+            font-style: normal;
+            font-weight: normal;
+            font-size: 18px;
+            line-height: 21px;
+            padding: 14px;
+            border-radius: 12px;
+            border: 1px solid #EAEAEA;
+            &:focus {
+                outline: none;
+                border: 1px solid #4424A7;
+            }
+              
+        }
+    }
+    & a{
+        font-size: 16px;
+        font-weight: 300;
+        font-style: normal;
+        line-height: 18px;
+        color: #868B90;
+        margin-top: 10px;
+        align-self: flex-end;
+        transition: .3s ease;
+
+        &:hover {
+            color: black;
+        }
+    }
+
+    & a.sign-in{
+        align-self: center;
+    }
+
+    & .password{
+        height: auto;
+    }
+
+    & .account-type {
+        margin-bottom: 50px;
+    }
+
+    & .btn-signIn {
+        width: 410px;
+        height: 50px;
+        border: none;
+        background-color: #77C5FD;
+        border-radius: 12px;
+        color: white;
+        font-size: 18px;
+        font-weight: 700;
+        text-align: center;
+        line-height: 21px;
+        font-size: normal;
+        margin-bottom: 30px;
+        transition: .5 s ease;
+
+        &:hover {
+            background-color: #47b2ff;
+        }
+
+        &:focus {
+            outline: none;
+        }
+    }
+    
+    
+}

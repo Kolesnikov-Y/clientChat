@@ -1,5 +1,5 @@
 import React from 'react';
-import LoginTestContainer from './pages/auth/LoginTestContainer';
+import LoginTestContainer from './pages/auth/test/LoginTestContainer';
 import './pages/style/style.css'
 import UserContainer from './pages/user/UserContainer';
 import './index.scss'
