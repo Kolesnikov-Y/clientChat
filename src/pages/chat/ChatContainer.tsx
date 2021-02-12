@@ -1,12 +1,13 @@
 import React from 'react';
-import { AppState } from '../../app-state';
 import './style/chatContainer.css'
 import ChatPage from './ChatPage';
 import io from 'socket.io-client';
-import { useSelector } from 'react-redux';
 import {v4 as uuidv4}  from 'uuid';
+import { useDispatch } from 'react-redux';
+import { deleteMessageAction } from '../../redux/chats/store/actions';
+import { RequestDeleteMessageModel } from '../../model';
 
-const socket = io.connect('http://10.10.4.172:3001'); 
+export const socket = io.connect('http://10.10.4.172:3001'); 
 
 interface UserMessageModel {
     id: string;
@@ -24,10 +25,12 @@ export  interface MessageModel {
 
 interface ChatContainerProps {
     userInfo : UserMessageModel, 
+    chatInfo: any
 }
 
-function ChatContainer ({userInfo}: ChatContainerProps): JSX.Element {
-const [message, setMessage] = React.useState<MessageModel>({
+function ChatContainer ({userInfo, chatInfo}: ChatContainerProps): JSX.Element {
+
+    const [message, setMessage] = React.useState<MessageModel>({
         id: "", 
         text: '', 
         createdAt: new Date(), 
@@ -38,24 +41,33 @@ const [message, setMessage] = React.useState<MessageModel>({
             isOnline: userInfo.isOnline,
         },
     });
+
     const [chat, setChat] = React.useState<MessageModel[]>([]); 
 
-    const currentChatId = useSelector<AppState, string | undefined >(({chats}) => chats.chatId);
+    const dispatch = useDispatch(); 
+     // socket.on('JoinedToChatroom', (response: {messages: MessageModel[], chatId: string} ): void => {
+        //     console.log("server response", response);
+        //     setChat([...response.messages]);
+        // })
 
     React.useEffect(() => {
+        setChat(chatInfo.messages);
+        socket.emit('JoinToChatroom', chatInfo.chatId)
         socket.on("msgToClient", (response: any): void => {
-            console.log(response);
             setChat([...response.messages])
         })
-      }, [])
+    }, [])
 
-      React.useEffect(() => {
-        socket.emit('setChatToServer', currentChatId); 
-        socket.on('setChatToClient', (response: MessageModel[]): void => {
-            console.log("server response", response);
-            setChat(response)
+    React.useEffect(() => {
+        setChat(chatInfo.messages);
+        socket.emit('JoinToChatroom', chatInfo.chatId);
+        socket.on("msgToClient", (response: any): void => {
+            setChat([...response.messages]);
         })
-      }, [currentChatId])
+         // return () => {  // это когда будет выполняться когда страница перерисовывается 
+        // // socket.emit('leaveCurrentChatroom' , {chatId})
+        // }
+    }, [chatInfo])
 
     const submitHelper = (userMessage: string) => {
         let request: MessageModel = {
@@ -64,17 +76,23 @@ const [message, setMessage] = React.useState<MessageModel>({
             text: userMessage,
             createdAt: new Date(Date.now())
         }
-        socket.emit('msgToServer', {payload: request}); 
-        socket.on("msgToClient", (response: any): void => {
-            console.log(response);
-            setChat([...response.messages])
-        })
+        socket.emit('msgToServer', {payload: request, chatId: chatInfo.chatId}); 
     }
+
+    const deleteMessageHandler = React.useCallback((removingMessage: RequestDeleteMessageModel) => {
+        socket.emit('RequestDeleteChatMessage', removingMessage); 
+        socket.on("ResponseDeleteChatMessage", (response: any) => {
+            console.log(response);
+            
+        })
+        // dispatch(deleteMessageAction(removingMessage))
+    }, [dispatch]); 
+
 
 
     return (
         <div className="chatContainer">
-            <ChatPage submitHelper={submitHelper} chat={chat} />
+            <ChatPage submitHelper={submitHelper} currentChat={chatInfo} chat={chat} userId={userInfo.id} deleteMessageHandler={deleteMessageHandler}/>
         </div>
     )
 }

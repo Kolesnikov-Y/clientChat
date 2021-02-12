@@ -22,11 +22,12 @@ const mockUserInfo = {
     contacts: [],
 }
 
-export function* changeUserDataSaga () {
+export function* addChatToUsersSaga () {
     yield takeEvery(addUsersChatAction.TYPE, function* (
         action: typeof addUsersChatAction.typeOf.action
     ){
         let addData: RequestAddUsersChatModel = action;
+
         try {
             yield put(
                 userStartOfServerAccessAction({

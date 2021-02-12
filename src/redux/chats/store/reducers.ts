@@ -1,32 +1,41 @@
 import { Action } from "redux"; 
-import { UserDataModel } from "../../../pages/user/UserContainer";
+import { UserChatModel, UserDataModel } from "../../../pages/user/UserContainer";
 import { UserStateModel } from "../../users/store/reducers";
-import { completedCreateNewChatroomAction, completedGetUserByName, failServerAccessAction } from "../saga/chatsHandler";
-import { setChatroomAction } from "./actions";
+import { completedCreateNewChatroomAction, completedDeleteMessageAction, completedEditMessageAction, completedGetNeedChatAction, completedGetUserByName, failServerAccessAction, startOfServerAccessAction } from "../saga/chatsHandler";
+import { deleteMessageAction } from "./actions";
+
 export interface ChatUserModel {
     user: UserStateModel; 
     massage: string; 
     messageDate: Date
 }
 
-
 export interface InitialChatModel {
     status: "initial" | "success" | 'error' | "running";
     users: UserDataModel[]; 
-    chatId?: string; 
+    currentChat: UserChatModel; 
     errorMsg?: string; 
-    isChatConnected: boolean
 }
 
 
 const initialState: InitialChatModel = {
     status: 'initial',
-    chatId: "",
+    currentChat: {
+        chatId: '', 
+        chatTitle: [], 
+        messages: []
+    },
     users: [], 
-    isChatConnected: false,
 }
 
 export function UserChatReducer (state: InitialChatModel = initialState, action: Action) {
+
+    if(startOfServerAccessAction.is(action)){
+        return {
+            ...state, 
+            status: action.status, 
+        }
+    }
 
     if(completedGetUserByName.is(action)){
         return {
@@ -48,14 +57,26 @@ export function UserChatReducer (state: InitialChatModel = initialState, action:
         return {
             ...state, 
             status: action.status, 
-            chatId: action.chatId
+            currentChat: action.currentChat
         }
     }
 
-    if(setChatroomAction.is(action)){
-        return {
+    if(completedGetNeedChatAction.is(action)){
+        return state = {
             ...state, 
-            chatId: action.id
+            status: action.status,
+            currentChat: action.currentChat
+        }   
+    }
+
+    if(completedDeleteMessageAction.is(action)){
+        return {...state, 
+            status: action.status
+        }
+    }
+    if(completedEditMessageAction.is(action)){
+        return {...state, 
+            status: action.status
         }
     }
 

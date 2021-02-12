@@ -10,10 +10,12 @@ interface UserComponentProps {
     openChatWithUser: (contactName: {name: string, id: string}, user: UserDataModel ) => void; 
     isChatOpen: boolean; 
     getCurrentChat: (id: string) => void
+    createAndGetNeedChat: (contact: any, user: any) => void
 }
 
- function UserComponent ({ getUsers, userFromSearch, openChatWithUser, isChatOpen, getCurrentChat}: UserComponentProps): JSX.Element {
+ function UserComponent ({ getUsers, userFromSearch, openChatWithUser, isChatOpen, getCurrentChat, createAndGetNeedChat}: UserComponentProps): JSX.Element {
     const userInfo = useSelector<AppState, UserDataModel>(({user}) => user.userInfo);
+    const currentChat = useSelector<AppState, UserChatModel>(({chats}) => chats.currentChat);
     const [search, setSearch] = React.useState<string>(''); 
     const debounceSearch = (e: ChangeEvent<HTMLInputElement>): void => { 
         setSearch(e.currentTarget.value);
@@ -44,7 +46,9 @@ interface UserComponentProps {
     const renderUserChats = () =>  {
         return (
             userFromSearch && userFromSearch.length ? userFromSearch.map((contact) => {
-                return  <li className="chat-body"  onClickCapture={() => userInfo !== undefined && openChatWithUser(contact, userInfo)}  key={contact.id}>
+                // return  <li className="chat-body"  onClickCapture={() => userInfo !== undefined && openChatWithUser(contact, userInfo)}  key={contact.id}>
+                return  <li className="chat-body"  onClickCapture={ () => createAndGetNeedChat(contact, userInfo)}  key={contact.id}>
+
                             <p className="chat-name">{contact.name}</p>
                             <div className="chat-button-group">
                                 <button className="chat-button-delete" onClickCapture={deleteChatHandler}>Delete</button>
@@ -85,7 +89,7 @@ interface UserComponentProps {
                 </div>
             </div>
             <div className="user-body">
-                {isChatOpen && <ChatContainer userInfo={userInfoForChat}/>}
+                {isChatOpen && <ChatContainer userInfo={userInfoForChat} chatInfo={currentChat}/>}
             </div>
         </>
     )

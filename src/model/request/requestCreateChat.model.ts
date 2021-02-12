@@ -6,7 +6,7 @@ export interface ChatTitleModel {
 }
 
 export interface RequestCreateChatModel {
-    userEmail?: string;
+    chatId: string;
     chatTitle: ChatTitleModel[];
     messages: MessageModel[];
 }

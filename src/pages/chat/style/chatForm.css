@@ -1,16 +1,58 @@
 .chat-form{
     width: 100%;
-    height: 100%;
+    height: auto;
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
 }
 
 .chat-input{
-    width: 100%;
+    flex: 1 0 auto;
+    /* width: 100%; */
     height: 40px;
     padding: 7px 15px;
     font-size: 18px;
+    margin-right: 15px;
+    border-radius: 2rem;
+}
+
+.chat-input:focus {
+    outline: none;
+}
+
+.btn-sendMessage{
+    flex: 0 1 auto;
+    height: 60px;
+    width: 60px; 
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0);
+    border: 1px solid rgba(255, 255, 255, 0);
+    cursor: pointer;
+    transition: .4s ease;
+}
+
+.btn-sendMessage:hover{
+    background-color: rgb(55, 135, 138);
+    border: 1px solid rgba(55, 135, 138);
+}
+
+.btn-sendMessage:focus{
+    outline: none;
+    background-color: rgb(55, 135, 138);
+    border: 1px solid rgba(55, 135, 138);
+}
+
+.btn-sendMessage:hover svg{
+    color: black; 
+}
+
+.btn-sendMessage:focus svg {
+    color: black; 
+}
+
+.sendMessage-icon svg{
+    width: 2em;
+    height: 2em;
+    color: blue; 
 }
 

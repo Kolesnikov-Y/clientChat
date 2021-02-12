@@ -1,5 +1,5 @@
 .chatContainer{
     min-height: 80%;
-    height: auto;
-    padding: 0 15px;
+    height: 100%;
+    padding: 15px 15px 0;
 }
