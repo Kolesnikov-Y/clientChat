@@ -1,0 +1,8 @@
+.auth-layout{
+    width: 100%;
+    min-height: 100vh;
+    & > .auth-wrapper{
+        width: 100%;
+        height: 100%;
+    }
+}

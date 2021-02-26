@@ -1,12 +1,15 @@
 import { applyMiddleware, combineReducers, compose, createStore } from "redux";
+import { connectRouter, routerMiddleware } from "connected-react-router";
 import { UserReducer } from "./redux/users/store/reducers";
 import createSagaMiddleware from 'redux-saga'; 
 import {all} from 'redux-saga/effects'
 import { chatsSaga } from "./redux/chats/saga";
 import { UserChatReducer } from "./redux/chats/store/reducers";
 import { userSaga } from "./redux/users/saga";
+import {history} from './history-instance'; 
 
 const reducers = {
+    router: connectRouter(history),
     user: UserReducer, 
     chats: UserChatReducer
 }
@@ -24,7 +27,7 @@ const sagaMiddleware = createSagaMiddleware();
 
 export const store = createStore(
     rootReducer, 
-    composeEnhancers(applyMiddleware(sagaMiddleware)),
+    composeEnhancers(applyMiddleware( routerMiddleware(history), sagaMiddleware )),
 );
 
 sagaMiddleware.run(appSaga); 

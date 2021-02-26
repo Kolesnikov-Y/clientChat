@@ -1,12 +1,11 @@
-// переменные 
-@import '../../../../index.scss';
-// вынести марджины для текста и формы
+
+@import '../../../../assets/scss/mixins-media.scss'; 
+@import '../../../../assets/scss/mixins-global.scss'; 
+@import '../../../../assets/scss/variables.scss'; 
+
 
 // variables
 
-$login-form-container-width: 1440px;
-$right-width: 670px;
-$main-margin: 110px; 
 
 // style
 
@@ -58,35 +57,35 @@ $main-margin: 110px;
             font-weight: 400;
         }
     }
-
 }
-
-
-
-// need to paste svg image in background!
 
 .right{
     position: relative;
     width: $right-width;
     height: 100%;
-    background-color: #4424A7;
-    // background-image: url("../img/illustration.svg") no-repeat center;
+    background-image: url('../../../../assets/img/backgroundRight.svg');
+    background-size: cover;
     z-index: 5;
-    @include centeredColumn;
+    @include centeredElem;
 
     & .illustration{
         max-width: 289px;
         min-height: 250px;
         margin-bottom: 50px;
-        border: 1px solid black ;
+        & img {
+            width: 100%;
+            height: 100%;
+            margin: 0 auto;
+        }
     }
 
     & .group{
         max-width: 282px;
         min-height: 90;
         height: auto;
+        text-align: center;
         margin-bottom: 50px;
-        & h2{
+        & > h2{
             max-width: 282px;
             min-height: 30px;
             height: auto;
@@ -99,7 +98,7 @@ $main-margin: 110px;
             color: white; 
             margin-bottom: 12px;
         }
-        &p{
+        & > p{
             max-width: 282px;
             min-height: 50px;
             height: auto;

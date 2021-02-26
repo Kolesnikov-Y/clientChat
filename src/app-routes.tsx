@@ -1,6 +1,8 @@
-import React from 'react'
-import { Redirect } from 'react-router'
+import React from 'react';
+import { Redirect } from 'react-router';
+import { AuthRoutes } from './features/auth';
 
 export const appRoutes = [
-    <Redirect key="main-home-page" from="/" to="/main" />
+    ...AuthRoutes,
+    <Redirect key="main-home-page" from="/" to="/login"/>,
 ]

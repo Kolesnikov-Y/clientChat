@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 
 interface FormComponentProps {
     getStateValue: (value: UserDataModel) => void
@@ -24,12 +24,14 @@ export default function FromComponent ({getStateValue}: FormComponentProps): JSX
     
       const submitHandler = (e: any) => {
         e.preventDefault(); 
+        if(!state.email || !state.password){
+            return false
+        }
         const user: UserDataModel = {
           name: state.name,
           email: state.email, 
           password: state.password  
         }
-
         getStateValue(user);
     }
     return (

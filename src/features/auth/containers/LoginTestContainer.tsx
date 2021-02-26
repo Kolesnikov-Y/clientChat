@@ -1,6 +1,7 @@
 import React from 'react'; 
-import FormTestComponent from './FormTest';
+import FormTestComponent from '../components/FormTest';
 import './style/loginTestContainer.scss'
+import illustration from '../../../assets/img/illustration.svg'
 
 export default function LoginTestContainer (): JSX.Element {
     return (
@@ -29,7 +30,7 @@ export default function LoginTestContainer (): JSX.Element {
            </div>
            <div className="right">
                 <div className="illustration">
-                    <img src="../img/illustration.svg" alt="svg"/>
+                    <img src={illustration} alt="svg"/>
                 </div>
                 <div className="group">
                     <h2>Simple is Key</h2>

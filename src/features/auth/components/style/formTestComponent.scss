@@ -1,8 +1,6 @@
-@import '../../../../index.scss';
-
-$login-form-container-width: 1440px;
-$right-width: 670px;
-$main-margin: 110px; 
+@import '../../../../assets/scss/mixins-global.scss'; 
+@import '../../../../assets/scss/mixins-global.scss'; 
+@import '../../../../assets/scss/variables.scss'; 
 
 .form{
     max-width: 510px;
@@ -13,7 +11,7 @@ $main-margin: 110px;
     margin-right: 5rem;
     padding-top: 58px;
     padding-bottom: 58px;
-    @include centeredColumn;
+    @include centeredElem;
 
     & .email-address, .password, .account-type {
         width: 410px;
@@ -70,7 +68,7 @@ $main-margin: 110px;
         margin-bottom: 50px;
     }
 
-    & .btn-signIn {
+    & > .btn-signIn {
         width: 410px;
         height: 50px;
         border: none;
